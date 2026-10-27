@@ -12,7 +12,7 @@ rm -f ~/jupyter-binding/.jupyter_ready
 rm -f ~/jupyter-binding/.jupyter_log
 
 # Activate your exact environment
-source ~/.bashrc
+source ~/miniforge3/etc/profile.d/conda.sh
 conda activate CS225
 
 # Assign variables
