@@ -7,10 +7,10 @@ Write-Host "1. Contacting Ibex to request GPU and start Jupyter..." -ForegroundC
 $Command = "sbatch ~/jupyter-binding/jupyter_vscode.slurm > /dev/null; while [ ! -f ~/jupyter-binding/.jupyter_ready ]; do sleep 5; done; cat ~/jupyter-binding/.jupyter_ready"
 $Output = ssh ${User}@glogin.ibex.kaust.edu.sa $Command
 
-if ($Output -match ":") {
-    $Parts = $Output.Split(":")
-    $Node = $Parts[0].Trim()
-    $Token = $Parts[1].Trim()
+# Use strict regex to ignore the ASCII banner and capture ONLY the Node and Token
+if ($Output -match "(gpu\d+-\d+):([a-zA-Z0-9]+)") {
+    $Node = $Matches[1]
+    $Token = $Matches[2]
 
     Write-Host "2. Server is alive on $Node! Opening background SSH tunnel..." -ForegroundColor Cyan
     
@@ -29,6 +29,5 @@ if ($Output -match ":") {
     Write-Host "Something went wrong. Output was: $Output" -ForegroundColor Red
 }
 
-# Prevents the PowerShell window from auto-closing
 Write-Host "`n"
 Read-Host -Prompt "Press Enter to close this window"
