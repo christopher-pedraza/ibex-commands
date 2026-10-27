@@ -4,7 +4,7 @@ $RemotePort = 8888
 
 Write-Host "1. Contacting Ibex to request GPU and start Jupyter..." -ForegroundColor Cyan
 # This single SSH command submits the job and waits until the ready file is generated
-$Command = "sbatch ~/jupyter_vscode.slurm > /dev/null; while [ ! -f ~/.jupyter_ready ]; do sleep 5; done; cat ~/.jupyter_ready"
+$Command = "sbatch ~/jupyter-binding/jupyter_vscode.slurm > /dev/null; while [ ! -f ~/.jupyter_ready ]; do sleep 5; done; cat ~/jupyter-binding/.jupyter_ready"
 $Output = ssh ${User}@glogin.ibex.kaust.edu.sa $Command
 
 if ($Output -match ":") {
